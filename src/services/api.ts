@@ -7,7 +7,6 @@ export async function getCardapio() {
   try {
   
     const response = await api.get('/cardapio/todos');
-    console.log(response);
     const data = response.data;
 
     return data;
@@ -17,14 +16,21 @@ export async function getCardapio() {
   }
 }
 
-export async function getCardapioId(id:number): Promise<Cardapio> {
+export async function getCardapioId(id:number) {
   try {
   
     const response = await api.get(`/cardapio/id/${id}`);
-    console.log(response);
-    const data:Cardapio = response.data;
-
+    const data = response.data;
+    
     return data;
+  } catch (error) {
+    console.error('Erro ao buscar o cardápio:', error);
+    throw error;
+  }
+}
+export async function updateCardapio(cardapio: Cardapio) {
+  try {
+      await api.put(`/cardapio`, cardapio);
   } catch (error) {
     console.error('Erro ao buscar o cardápio:', error);
     throw error;
