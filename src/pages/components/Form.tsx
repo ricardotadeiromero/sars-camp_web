@@ -56,6 +56,8 @@ export default function Form() {
             setValue('periodo', item.periodo)
             setValue('vegetariano', item.vegetariano)
             setValue('data', new Date(item.data))
+            console.log(item.data)
+
           }
         } catch (error) {
           console.error("Erro ao buscar o cardápio:", error);
@@ -65,7 +67,7 @@ export default function Form() {
       fetchCardapio();
     }
     setLoading(false)
-  }, [id]);
+  }, [id,setValue]);
 
   const onSubmit = async (data: Cardapio) => {
     try {
