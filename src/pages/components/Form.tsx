@@ -38,7 +38,7 @@ export default function Form() {
     formState: { errors },
     setFocus,
     setValue,
-  } = useForm<Cardapio>();
+  } = useForm<Cardapio>({resolver: yupResolver(CardapioSchema) as any});
 
   const [cardapios, setCardapios] = useState<Cardapio>();
   const [loading, setLoading] = useState(true);
@@ -46,10 +46,9 @@ export default function Form() {
     setLoading(false);
     if (id) {
       try {
-        const [response] = await getCardapioId(parseInt(id!));
-        const item: Cardapio = response;
+        const item = await getCardapioId(parseInt(id!));
         setCardapios(item);
-
+        
         if (item) {
           console.log();
           setValue("principal", item.principal);
@@ -60,6 +59,7 @@ export default function Form() {
           setValue("periodo", item.periodo);
           setValue("vegetariano", item.vegetariano);
           setValue("data", new Date(item.data));
+          
         }
       } catch (error) {
         console.error("Erro ao buscar o cardápio:", error);
@@ -69,7 +69,7 @@ export default function Form() {
   };
   useEffect(() => {
     fetchCardapio();
-  }, [loading]);
+  }, []);
 
   const onSubmit = async (data: Cardapio) => {
     try {
@@ -196,8 +196,8 @@ export default function Form() {
           control={control}
           name="data"
           render={({ field: { ...field } }) => (
-            <FormControl fullWidth={true}>
-              <DatePicker label="Data" {...field} />
+            <FormControl  fullWidth={true} >
+              <DatePicker  label="Data" {...field} />
             </FormControl>
           )}
         />
@@ -207,7 +207,7 @@ export default function Form() {
         <Button type="submit" variant="contained" size="large">
           {id ? "Editar Cardápio" : "Criar Cardápio"}
         </Button>
-        <Button onClick={() => navigate("/pagina-de-destino")}>Cancelar</Button>
+        <Button onClick={() => navigate("/cardapio")}>Cancelar</Button>
       </Stack>
     </Box>
   );
