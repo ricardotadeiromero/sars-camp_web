@@ -16,9 +16,12 @@ import {
 } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
 import { useParams, useNavigate } from "react-router-dom";
-import { getCardapioId, updateCardapio } from "../../services/api";
+import { createCardapio, getCardapioId, updateCardapio } from "../../services/api";
 import { Cardapio } from "../../model/Cardapio";
+import { CardapioSchema } from "../schemas/CardapioSchemas";
 import { DatePicker } from "@mui/x-date-pickers";
+import { format } from "date-fns";
+import { yupResolver } from "@hookform/resolvers/yup"
 
 export default function Form() {
   const { id } = useParams();
@@ -52,6 +55,7 @@ export default function Form() {
             setValue('suco', item.suco)
             setValue('periodo', item.periodo)
             setValue('vegetariano', item.vegetariano)
+            setValue('data', new Date(item.data))
           }
         } catch (error) {
           console.error("Erro ao buscar o cardápio:", error);
@@ -65,15 +69,27 @@ export default function Form() {
 
   const onSubmit = async (data: Cardapio) => {
     try {
-      if(id){
-        updateCardapio(data);
+      if (id) {
+        // Verifique se 'id' é válido antes de adicionar ao objeto 'data'
+        const parsedId = parseInt(id);
+        if (!isNaN(parsedId)) {
+          data.id = parsedId;
+        }
+        console.log(data);
+      updateCardapio(data);
+      } else {
+        console.log(data)
+        createCardapio(data)
       }
+  
+      
       navigate("/cardapio");
     } catch (error) {
       console.error("Erro ao enviar os dados do cardápio:", error);
       // Handle the error as needed
     }
   };
+  
 
   if (loading) {
     return <p>Carregando...</p>;
@@ -148,7 +164,7 @@ export default function Form() {
           <RadioGroup
             aria-labelledby="demo-radio-buttons-group-label"
             defaultValue="0"
-            name="radio-buttons-group"
+            name="periodo"
           >
             <FormControlLabel value="0" control={<Radio />} label="Almoço" />
             <FormControlLabel value="1" control={<Radio />} label="Janta" />
@@ -162,7 +178,7 @@ export default function Form() {
           <RadioGroup
             aria-labelledby="demo-radio-buttons-group-label"
             defaultValue="0"
-            name="radio-buttons-group"
+            name="vegetariano"
           >
             <FormControlLabel value="0" control={<Radio />} label="Comum" />
             <FormControlLabel value="1" control={<Radio />} label="Vegetariano" />

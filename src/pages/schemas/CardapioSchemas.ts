@@ -2,7 +2,7 @@ import * as yup from "yup"
 
 import { Cardapio } from "../../model/Cardapio";
 
-export const UserSchema = yup
+export const CardapioSchema = yup
   .object<Cardapio>({
     principal: yup.string().required("Este campo é obrigatório"),
     guarnicao: yup.string().required("Este campo é obrigatório"),
