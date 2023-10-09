@@ -9,8 +9,8 @@ export const CardapioSchema = yup
     salada: yup.string().required("Este campo é obrigatório"),
     sobremesa: yup.string().required("Este campo é obrigatório"),
     suco: yup.string().required("Este campo é obrigatório"),
-    periodo: yup.string().required("Este campo é obrigatório"),
-    vegetariano: yup.string().required("Este campo é obrigatório"),
+    periodo: yup.number().required("Este campo é obrigatório"),
+    vegetariano: yup.number().required("Este campo é obrigatório"),
     data: yup.date().required("Este campo é obrigatório"),
     
   })
