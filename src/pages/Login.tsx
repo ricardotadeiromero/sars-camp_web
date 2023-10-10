@@ -21,7 +21,7 @@ export default function LoginPage() {
     throw new Error("AuthContext não está disponível.");
   }
 
-
+  const { user, login, logout } = authContext;
 
   const {
     control,
