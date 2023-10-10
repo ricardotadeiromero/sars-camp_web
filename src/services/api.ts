@@ -59,8 +59,8 @@ export async function deleteCardapio(cardapio: Cardapio){
 
 export async function createSession(aluno: Aluno){
   try{
-    const auth = await api.post('/aluno/ra/',aluno)
-    if(auth) return true;
+    const auth = await api.post('/saldo/ra/',aluno)
+    if(auth.data) return true;
     return false
   } catch (error) {
     console.error('Erro ao buscar o aluno:', error);

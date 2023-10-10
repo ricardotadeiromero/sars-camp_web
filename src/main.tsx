@@ -7,9 +7,9 @@ import ptBR from "date-fns/locale/pt-BR"
 import React from "react"
 import ReactDOM from "react-dom/client"
 
-import { theme } from "./theme.ts"
+import { theme } from "./theme"
 
-import App from "./App.tsx"
+import App from "./App"
 
 import "@fontsource/roboto/300.css"
 import "@fontsource/roboto/400.css"

@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  CircularProgress,
   Container,
   Grid,
   Paper,
@@ -21,7 +22,7 @@ export default function LoginPage() {
     throw new Error("AuthContext não está disponível.");
   }
 
-  const { user, login, logout } = authContext;
+  const { user, login, logout, loading } = authContext;
 
   const {
     control,
@@ -32,8 +33,9 @@ export default function LoginPage() {
     setValue,
   } = useForm<Aluno>();
 
-  function onSubmit(aluno:Aluno){
+  function onSubmit(aluno: Aluno) {
     console.log(aluno);
+    login(aluno);
   }
   return (
     <Grid
@@ -51,32 +53,49 @@ export default function LoginPage() {
             height: "inherit",
           }}
         >
-          <Grid
-            container
-            component='form'
-            sx={{
-              justifyContent: "center", // Centralize horizontalmente
-              padding: 4,
-              display: "flex",
-              alignItems: "center",
-              flexDirection: "column",
-              height: "100%", // Para ocupar toda a altura do Paper
-            }}
-          >
-            {/* Use a tag 'img' para exibir a imagem com o atributo 'src' */}
-            <img src={loginImage} width={"60%"} alt="Login" />
-            <Stack
-              sx={{ alignSelf: "start", width: "100%" }}
-              spacing={3}
-              mb={5}
+          <Box component="form" onSubmit={handleSubmit(onSubmit)}>
+            <Grid
+              container
+              sx={{
+                justifyContent: "center", // Centralize horizontalmente
+                padding: 4,
+                display: "flex",
+                alignItems: "center",
+                flexDirection: "column",
+                height: "100%", // Para ocupar toda a altura do Paper
+              }}
             >
-              <TextField fullWidth label="Usuário" variant="standard" {...register('ra')}/>
-              <TextField fullWidth label="Senha" variant="standard" {...register('senha')} />
-            </Stack>
-            <Button type="submit" fullWidth variant="contained">
-              Login
-            </Button>
-          </Grid>
+              {/* Use a tag 'img' para exibir a imagem com o atributo 'src' */}
+              <img src={loginImage} width={"60%"} alt="Login" />
+              <Stack
+                sx={{ alignSelf: "start", width: "100%" }}
+                spacing={3}
+                mb={5}
+              >
+                <TextField
+                  fullWidth
+                  label="Usuário"
+                  variant="standard"
+                  {...register("ra")}
+                />
+                <TextField
+                  type={"password"}
+                  fullWidth
+                  label="Senha"
+                  variant="standard"
+                  {...register("senha")}
+                />
+              </Stack>
+              {loading?
+              <Button type="submit" fullWidth variant="contained">
+                <CircularProgress color="success" />
+              </Button>
+              :
+              <Button type="submit" fullWidth variant="contained">
+                Login
+              </Button>}
+            </Grid>
+          </Box>
         </Paper>
       </Container>
     </Grid>

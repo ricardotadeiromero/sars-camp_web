@@ -50,7 +50,7 @@ export default function Form() {
         setCardapios(item);
         
         if (item) {
-          console.log();
+          console.log(item);
           setValue("principal", item.principal);
           setValue("guarnicao", item.guarnicao);
           setValue("salada", item.salada);

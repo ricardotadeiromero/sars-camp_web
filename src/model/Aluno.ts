@@ -1,4 +1,4 @@
 export type Aluno = {
-    ra: string,
+    ra: number,
     senha: string
 }
