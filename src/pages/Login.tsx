@@ -14,7 +14,15 @@ import { Aluno } from "../model/Aluno";
 import { AuthContext } from "../context/auth";
 
 export default function LoginPage() {
-  const { login } = useContext(AuthContext);
+  const authContext = useContext(AuthContext);
+
+  // Verifique se o contexto foi obtido corretamente
+  if (!authContext) {
+    throw new Error("AuthContext não está disponível.");
+  }
+
+
+
   const {
     control,
     register,
@@ -25,7 +33,7 @@ export default function LoginPage() {
   } = useForm<Aluno>();
 
   function onSubmit(aluno:Aluno){
-    login(aluno);
+    console.log(aluno);
   }
   return (
     <Grid
