@@ -11,7 +11,7 @@ import {
 import React, { useContext } from "react";
 import loginImage from "../assets/login.png"; // Importe a imagem aqui
 import { useForm } from "react-hook-form";
-import { Aluno } from "../model/Aluno";
+import { User } from "../model/User";
 import { AuthContext } from "../context/auth";
 
 export default function LoginPage() {
@@ -31,11 +31,11 @@ export default function LoginPage() {
     formState: { errors },
     setFocus,
     setValue,
-  } = useForm<Aluno>();
+  } = useForm<User>();
 
-  function onSubmit(aluno: Aluno) {
-    console.log(aluno);
-    login(aluno);
+  function onSubmit(user: User) {
+    console.log(user);
+    login(user);
   }
   return (
     <Grid
@@ -76,24 +76,25 @@ export default function LoginPage() {
                   fullWidth
                   label="Usuário"
                   variant="standard"
-                  {...register("ra")}
+                  {...register("user")}
                 />
                 <TextField
                   type={"password"}
                   fullWidth
                   label="Senha"
                   variant="standard"
-                  {...register("senha")}
+                  {...register("password")}
                 />
               </Stack>
-              {loading?
-              <Button type="submit" fullWidth variant="contained">
-                <CircularProgress color="success" />
-              </Button>
-              :
-              <Button type="submit" fullWidth variant="contained">
-                Login
-              </Button>}
+              {loading ? (
+                <Button type="submit" fullWidth variant="contained">
+                  <CircularProgress color="success" />
+                </Button>
+              ) : (
+                <Button type="submit" fullWidth variant="contained">
+                  Login
+                </Button>
+              )}
             </Grid>
           </Box>
         </Paper>

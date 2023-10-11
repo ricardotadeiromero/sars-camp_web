@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Cardapio } from '../model/Cardapio';
 import { format } from 'date-fns';
-import { Aluno } from '../model/Aluno';
+import { User } from '../model/User';
 
 const api = axios.create({ baseURL: 'http://localhost:3000' });
 
@@ -57,11 +57,11 @@ export async function deleteCardapio(cardapio: Cardapio){
   }
 }
 
-export async function createSession(aluno: Aluno){
+export async function createSession(user: User){
   try{
-    const auth = await api.post('/saldo/ra/',aluno)
-    if(auth.data) return true;
-    return false
+    const auth = await api.post('/user/login',user)
+    console.log(auth.data)
+    return auth.data
   } catch (error) {
     console.error('Erro ao buscar o aluno:', error);
     throw error;
