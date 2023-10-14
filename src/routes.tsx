@@ -23,9 +23,10 @@ export default function AppRoutes() {
     const authContext = useContext(AuthContext);
     if (!authContext) throw new Error("Problema");
     const { authorized, loading } = authContext;
-    if(loading) return <>Carregando...</>
-    console.log(authorized);
-    if (!authorized) navigate("/login");
+    if (loading) return <>Carregando...</>;
+    if (!authorized) {
+      navigate("/login");
+    }
     return <>{children}</>;
   }
   return (
@@ -33,7 +34,7 @@ export default function AppRoutes() {
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route
-          path="/cardapio"
+          path="/"
           element={
             <Private>
               <List />
@@ -41,7 +42,7 @@ export default function AppRoutes() {
           }
         />
         <Route
-          path="/cardapio/new"
+          path="/new"
           element={
             <Private>
               <Create />
@@ -49,7 +50,7 @@ export default function AppRoutes() {
           }
         />
         <Route
-          path="/cardapio/:id"
+          path="/:id"
           element={
             <Private>
               <Edit />

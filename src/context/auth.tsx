@@ -27,25 +27,41 @@ export default function AuthProvider({ children }: AuthProviderProps) {
   const [loading, setLoading] = useState(true);
 
   async function login(user: User) {
-    try {
-      const response = await createSession(user);
-      setAuthorized(response);
-      // O redirecionamento ocorre após o login bem-sucedido
-      if (response) {
-        navigate("/cardapio");
-      }
-    } catch (error) {
-      // Trate erros de login, se necessário
-    } finally {
-      setLoading(false); // Defina loading como false após a conclusão
+    if (!localStorage.getItem("authorized")) {
+      setLoading(true);
+      setTimeout(async () => {
+        try {
+          const response = await createSession(user);
+          setAuthorized(response);
+          localStorage.setItem("authorized", response);
+          setUser(user);
+          localStorage.setItem("user", JSON.stringify(user));
+          // O redirecionamento ocorre após o login bem-sucedido
+          if (response) {
+            navigate("/");
+          }
+        } catch (error) {
+          // Trate erros de login, se necessário
+        } finally {
+          setLoading(false); // Defina loading como false após a conclusão
+        }
+      }, 2000);
     }
   }
 
   useEffect(() => {
-    setLoading(false);
+    setTimeout(() => {
+      setAuthorized(localStorage.getItem("authorized"));
+      const userStorage: User = JSON.parse(localStorage.getItem("user")!);
+      setUser(userStorage);
+      setLoading(false);
+    }, 800);
   }, []);
   function logout() {
-    // Lógica de logout aqui
+    localStorage.removeItem("authorized");
+    localStorage.removeItem("user");
+    setAuthorized(null);
+    setUser(null);
   }
 
   const authContextValue: AuthContextType = {

@@ -38,7 +38,7 @@ export default function Form() {
     formState: { errors },
     setFocus,
     setValue,
-  } = useForm<Cardapio>({resolver: yupResolver(CardapioSchema) as any});
+  } = useForm<Cardapio>({ resolver: yupResolver(CardapioSchema) as any });
 
   const [cardapios, setCardapios] = useState<Cardapio>();
   const [loading, setLoading] = useState(true);
@@ -48,7 +48,7 @@ export default function Form() {
       try {
         const item = await getCardapioId(parseInt(id!));
         setCardapios(item);
-        
+
         if (item) {
           console.log(item);
           setValue("principal", item.principal);
@@ -59,7 +59,6 @@ export default function Form() {
           setValue("periodo", item.periodo);
           setValue("vegetariano", item.vegetariano);
           setValue("data", new Date(item.data));
-          
         }
       } catch (error) {
         console.error("Erro ao buscar o cardápio:", error);
@@ -86,7 +85,7 @@ export default function Form() {
         createCardapio(data);
       }
 
-      navigate("/cardapio");
+      navigate("/");
     } catch (error) {
       console.error("Erro ao enviar os dados do cardápio:", error);
       // Handle the error as needed
@@ -196,8 +195,8 @@ export default function Form() {
           control={control}
           name="data"
           render={({ field: { ...field } }) => (
-            <FormControl  fullWidth={true} >
-              <DatePicker  label="Data" {...field} />
+            <FormControl fullWidth={true}>
+              <DatePicker label="Data" {...field} />
             </FormControl>
           )}
         />

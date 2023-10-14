@@ -8,11 +8,12 @@ import {
   Stack,
   TextField,
 } from "@mui/material";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import loginImage from "../assets/login.png"; // Importe a imagem aqui
 import { useForm } from "react-hook-form";
 import { User } from "../model/User";
 import { AuthContext } from "../context/auth";
+import { useNavigate } from "react-router-dom";
 
 export default function LoginPage() {
   const authContext = useContext(AuthContext);
@@ -24,6 +25,8 @@ export default function LoginPage() {
 
   const { user, login, logout, loading } = authContext;
 
+  const navigate = useNavigate();
+
   const {
     control,
     register,
@@ -32,6 +35,10 @@ export default function LoginPage() {
     setFocus,
     setValue,
   } = useForm<User>();
+
+  useEffect(() => {
+    if (localStorage.getItem("authorized")) navigate("/");
+  });
 
   function onSubmit(user: User) {
     console.log(user);
@@ -88,7 +95,7 @@ export default function LoginPage() {
               </Stack>
               {loading ? (
                 <Button type="submit" fullWidth variant="contained">
-                  <CircularProgress color="success" />
+                  <CircularProgress color="info" size={24} />
                 </Button>
               ) : (
                 <Button type="submit" fullWidth variant="contained">
