@@ -1,7 +1,7 @@
 import { Children, ReactNode, createContext, useState, useEffect } from "react";
 import React from "react";
 import { User } from "../model/User";
-import { createSession } from "../services/api";
+import { addToken, createSession } from "../services/api";
 import { useNavigate } from "react-router-dom";
 
 // Defina o tipo do valor padrão para o contexto (no seu caso, um objeto vazio)
@@ -36,7 +36,6 @@ export default function AuthProvider({ children }: AuthProviderProps) {
           localStorage.setItem("authorized", response);
           setUser(user);
           localStorage.setItem("user", JSON.stringify(user));
-          // O redirecionamento ocorre após o login bem-sucedido
           if (response) {
             navigate("/");
           }

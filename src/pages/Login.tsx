@@ -83,7 +83,7 @@ export default function LoginPage() {
                   fullWidth
                   label="Usuário"
                   variant="standard"
-                  {...register("user")}
+                  {...register("username")}
                 />
                 <TextField
                   type={"password"}

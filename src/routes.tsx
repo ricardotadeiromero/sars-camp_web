@@ -12,6 +12,7 @@ import Create from "./pages/Create";
 import LoginPage from "./pages/Login";
 import { Children, ReactNode, ReactElement, useContext } from "react";
 import AuthProvider, { AuthContext } from "./context/auth";
+import { addToken } from "./services/api";
 
 interface PrivateProps {
   children: ReactElement;
