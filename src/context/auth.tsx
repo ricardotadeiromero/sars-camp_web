@@ -52,6 +52,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
     setTimeout(() => {
       setAuthorized(localStorage.getItem("authorized"));
       const userStorage: User = JSON.parse(localStorage.getItem("user")!);
+      addToken(localStorage.getItem("authorized")!);
       setUser(userStorage);
       setLoading(false);
     }, 800);

@@ -11,7 +11,7 @@ export default function CardapioList() {
   const authContext = useContext(AuthContext);
   if (!authContext) throw new Error("Contexto fudeu");
   const { logout, user } = authContext;
-  const title: String = "Bem vindo " + user!.user;
+  const title: String = "Bem vindo " + user!.username;
   return (
     <>
       <MyGrid container justifyContent={"flex-end"} alignItems={"flex-start"}>

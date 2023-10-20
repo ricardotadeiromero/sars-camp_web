@@ -24,13 +24,13 @@ export function addToken(token: string) {
 
 export async function getCardapioId(id:number): Promise<Cardapio>{
   try {
-  
-    const response = await api.get(`/cardapio/id/${id}`);
-    const [data] = response.data;
-    console.log(response);
+    const response = await api.get(`/cardapio/${id}`);
+    const data = response.data;
+    console.log(data);
     return data;
   } catch (error) {
     console.error('Erro ao buscar o cardápio:', error);
+    console.error(error);
     throw error;
   }
 }
