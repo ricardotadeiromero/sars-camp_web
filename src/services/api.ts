@@ -3,12 +3,12 @@ import { Cardapio } from '../model/Cardapio';
 import { format } from 'date-fns';
 import { User } from '../model/User';
 
-const api = axios.create({ baseURL: 'http://localhost:3000' });
+const api = axios.create({ baseURL: 'http://localhost:3000', withCredentials:true });
 
 export async function getCardapio() {
   try {
   
-    const response = await api.get('/cardapio ');
+    const response = await api.get('/cardapio ',);
     const data = response.data;
 
     return data;
@@ -65,8 +65,8 @@ export async function createSession(user: User){
   try{
     const auth = await api.post('/login',user)
     console.log(auth.data)
-    const token = auth.data['access_token'];
-    addToken(token);
+    const token = auth.data;
+    // addToken(token);
     return token;
   } catch (error) {
     console.error('Erro ao buscar o aluno:', error);

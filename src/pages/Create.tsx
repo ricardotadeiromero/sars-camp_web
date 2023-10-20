@@ -8,9 +8,9 @@ export default function CardapioCreate() {
   return (
     <>
       <Box sx={{ flexGrow: 1, mb: 1 }}>
-        <PageTitle variant="h2" title="Create" />
+        <PageTitle variant="h2" title="Adicionar" />
         <Breadcrumbs
-          path={[{ label: "List", to: "/" }, { label: "Novo cárdapio" }]}
+          path={[{ label: "Novo cárdapio" }]}
         />
       </Box>
       <Paper>

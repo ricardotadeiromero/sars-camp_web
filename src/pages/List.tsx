@@ -22,12 +22,7 @@ export default function CardapioList() {
       <Stack direction={{ xs: "column", sm: "row" }} gap={1} mb={2}>
         <Box sx={{ flexGrow: 1 }}>
           <PageTitle variant="h4" title={title} />
-          <Breadcrumbs
-            path={[
-              { label: "Cardápios", to: "/cardapios" },
-              { label: "Lista" },
-            ]}
-          />
+          <Breadcrumbs path={[]}/>
         </Box>
         <Box sx={{ alignSelf: "center" }}>
           <Button

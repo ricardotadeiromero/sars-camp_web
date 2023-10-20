@@ -8,9 +8,9 @@ export default function CardapioEdit() {
   return (
     <>
       <Box sx={{ flexGrow: 1, mb: 1 }}>
-        <PageTitle variant="h2" title="Edit" />
+        <PageTitle variant="h2" title="Edição" />
         <Breadcrumbs
-          path={[{ label: "List", to: "/" }, { label: "Edição cardápio" }]}
+          path={[{ label: "Edição cardápio" }]}
         />
       </Box>
       <Paper>

@@ -16,7 +16,7 @@ export default function Breadcrumbs({ path }: BreadcrumbsProps) {
   return (
     <Materialbreadcrumbs arial-label="breadcrumb">
       <Link underline="hover" color="inherit" component={RouterLink} to="/">
-        Fon
+        Cardápios
       </Link>
       {path.map((item, index) =>
         item.to ? (
