@@ -15,7 +15,7 @@ export default function CardapioList() {
   return (
     <>
       <MyGrid container justifyContent={"flex-end"} alignItems={"flex-start"}>
-        <Button color="error" variant="outlined" onClick={logout}>
+        <Button variant="outlined" onClick={logout}>
           Logout
         </Button>
       </MyGrid>

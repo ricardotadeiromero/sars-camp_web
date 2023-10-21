@@ -205,7 +205,7 @@ export default function Form() {
         <Button type="submit" variant="contained" size="large">
           {id ? "Editar Cardápio" : "Criar Cardápio"}
         </Button>
-        <Button onClick={() => navigate("/cardapio")}>Cancelar</Button>
+        <Button onClick={() => navigate("/")}>Cancelar</Button>
       </Stack>
     </Box>
   );
