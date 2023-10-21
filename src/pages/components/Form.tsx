@@ -84,7 +84,6 @@ export default function Form() {
         console.log(data);
         createCardapio(data);
       }
-
       navigate("/");
     } catch (error) {
       console.error("Erro ao enviar os dados do cardápio:", error);

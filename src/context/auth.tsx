@@ -3,11 +3,11 @@ import React from "react";
 import { User } from "../model/User";
 import { addToken, createSession } from "../services/api";
 import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 // Defina o tipo do valor padrão para o contexto (no seu caso, um objeto vazio)
 interface AuthContextType {
-  authorized: string | null;
-  user: User | null;
+  user: string | null;
   loading: boolean;
   login: (user: User) => void;
   logout: () => void;
@@ -22,20 +22,18 @@ interface AuthProviderProps {
 }
 export default function AuthProvider({ children }: AuthProviderProps) {
   const navigate = useNavigate();
-  const [user, setUser] = useState<User | null>(null);
-  const [authorized, setAuthorized] = useState<string | null>(null);
+  const [cookies, setCookie, removeCookie] = useCookies(["access_token"]);
+  const [user, setUser] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
   async function login(user: User) {
-    if (!localStorage.getItem("authorized")) {
+    if (!cookies.access_token) {
       setLoading(true);
       setTimeout(async () => {
         try {
           const response = await createSession(user);
-          setAuthorized(response);
-          localStorage.setItem("authorized", response);
-          setUser(user);
-          localStorage.setItem("user", JSON.stringify(user));
+          setUser(user.username);
+          localStorage.setItem("user", user.username);
           if (response) {
             navigate("/");
           }
@@ -50,22 +48,18 @@ export default function AuthProvider({ children }: AuthProviderProps) {
 
   useEffect(() => {
     setTimeout(() => {
-      setAuthorized(localStorage.getItem("authorized"));
-      const userStorage: User = JSON.parse(localStorage.getItem("user")!);
-      // addToken(localStorage.getItem("authorized")!);
+      const userStorage: string = localStorage.getItem("user")!;
       setUser(userStorage);
       setLoading(false);
     }, 800);
   }, []);
   function logout() {
-    localStorage.removeItem("authorized");
     localStorage.removeItem("user");
-    setAuthorized(null);
+    setCookie("access_token", "", { path: "/" });
     setUser(null);
   }
 
   const authContextValue: AuthContextType = {
-    authorized,
     user,
     loading,
     login,

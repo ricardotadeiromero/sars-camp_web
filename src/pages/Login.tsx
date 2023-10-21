@@ -14,6 +14,7 @@ import { useForm } from "react-hook-form";
 import { User } from "../model/User";
 import { AuthContext } from "../context/auth";
 import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 export default function LoginPage() {
   const authContext = useContext(AuthContext);
@@ -22,7 +23,7 @@ export default function LoginPage() {
   if (!authContext) {
     throw new Error("AuthContext não está disponível.");
   }
-
+  const [cookies, setCookie, removeCookie] = useCookies(["access_token"]);
   const { user, login, logout, loading } = authContext;
 
   const navigate = useNavigate();
@@ -37,7 +38,7 @@ export default function LoginPage() {
   } = useForm<User>();
 
   useEffect(() => {
-    if (localStorage.getItem("authorized")) navigate("/");
+    if (cookies.access_token) navigate("/");
   });
 
   function onSubmit(user: User) {

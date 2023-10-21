@@ -17,18 +17,20 @@ export default function Grid() {
   const [cardapios, setCardapios] = useState<Cardapio[]>([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+
   useEffect(() => {
-    const fetchData = async () => {
+    console.log("fon");
+    async function fetchData() {
       try {
         const data = await getCardapio();
+        console.log(data[0]);
         setCardapios(data);
         setLoading(false);
       } catch (error) {
         console.error("Erro ao buscar o cardápio:", error);
         setLoading(false);
       }
-    };
-
+    }
     fetchData();
   }, []);
 

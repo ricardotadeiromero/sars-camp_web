@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import Grid from "./components/Grid";
 import { Grid as MyGrid, Box, Button, Paper, Stack } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
@@ -11,7 +11,7 @@ export default function CardapioList() {
   const authContext = useContext(AuthContext);
   if (!authContext) throw new Error("Contexto fudeu");
   const { logout, user } = authContext;
-  const title: String = "Bem vindo " + user!.username;
+  const title: String = "Bem vindo " + user!;
   return (
     <>
       <MyGrid container justifyContent={"flex-end"} alignItems={"flex-start"}>
@@ -22,7 +22,7 @@ export default function CardapioList() {
       <Stack direction={{ xs: "column", sm: "row" }} gap={1} mb={2}>
         <Box sx={{ flexGrow: 1 }}>
           <PageTitle variant="h4" title={title} />
-          <Breadcrumbs path={[]}/>
+          <Breadcrumbs path={[]} />
         </Box>
         <Box sx={{ alignSelf: "center" }}>
           <Button

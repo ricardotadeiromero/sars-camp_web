@@ -1,18 +1,11 @@
-import {
-  Route,
-  Routes,
-  Router,
-  Navigate,
-  RoutesProps,
-  useNavigate,
-} from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import List from "./pages/List";
 import Edit from "./pages/Edit";
 import Create from "./pages/Create";
 import LoginPage from "./pages/Login";
-import { Children, ReactNode, ReactElement, useContext } from "react";
+import { ReactElement, useContext } from "react";
 import AuthProvider, { AuthContext } from "./context/auth";
-import { addToken } from "./services/api";
+import { useCookies } from "react-cookie";
 
 interface PrivateProps {
   children: ReactElement;
@@ -20,12 +13,13 @@ interface PrivateProps {
 
 export default function AppRoutes() {
   const navigate = useNavigate();
+  const [cookies, setCookie, removeCookie] = useCookies(["access_token"]);
   function Private({ children }: PrivateProps) {
     const authContext = useContext(AuthContext);
     if (!authContext) throw new Error("Problema");
-    const { authorized, loading } = authContext;
+    const { loading } = authContext;
     if (loading) return <>Carregando...</>;
-    if (!authorized) {
+    if (!cookies["access_token"]) {
       navigate("/login");
     }
     return <>{children}</>;
