@@ -24,7 +24,7 @@ export default function LoginPage() {
     throw new Error("AuthContext não está disponível.");
   }
   const [cookies, setCookie, removeCookie] = useCookies(["access_token"]);
-  const { user, login, logout, loading } = authContext;
+  const { login, error, loading } = authContext;
 
   const navigate = useNavigate();
 
@@ -93,6 +93,9 @@ export default function LoginPage() {
                   variant="standard"
                   {...register("password")}
                 />
+                <Box sx={{width: "100%", textAlign:"center"}}>
+                  {error}
+                </Box>
               </Stack>
               {loading ? (
                 <Button type="submit" fullWidth variant="contained">

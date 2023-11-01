@@ -11,6 +11,7 @@ interface AuthContextType {
   loading: boolean;
   login: (user: User) => void;
   logout: () => void;
+  error: string
 }
 
 export const AuthContext = createContext<AuthContextType | undefined>(
@@ -22,6 +23,7 @@ interface AuthProviderProps {
 }
 export default function AuthProvider({ children }: AuthProviderProps) {
   const navigate = useNavigate();
+  const [error, setError] = useState<string>("");
   const [cookies, setCookie, removeCookie] = useCookies(["access_token"]);
   const [user, setUser] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
@@ -38,7 +40,8 @@ export default function AuthProvider({ children }: AuthProviderProps) {
             navigate("/");
           }
         } catch (error) {
-          // Trate erros de login, se necessário
+          setError("Usuário e/ou senha inválidos!");
+          
         } finally {
           setLoading(false); // Defina loading como false após a conclusão
         }
@@ -60,6 +63,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
   }
 
   const authContextValue: AuthContextType = {
+    error,
     user,
     loading,
     login,
