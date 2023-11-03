@@ -14,11 +14,11 @@ export default function CardapioList() {
   const title: String = "Bem vindo " + user!;
   return (
     <>
-      <MyGrid container justifyContent={"flex-end"} alignItems={"flex-start"}>
-        <Button variant="outlined" onClick={logout}>
-          Logout
-        </Button>
-      </MyGrid>
+      <MyGrid
+        container
+        justifyContent={"flex-end"}
+        alignItems={"flex-start"}
+      ></MyGrid>
       <Stack direction={{ xs: "column", sm: "row" }} gap={1} mb={2}>
         <Box sx={{ flexGrow: 1 }}>
           <PageTitle variant="h4" title={title} />

@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { Cardapio } from '../model/Cardapio';
-import { format } from 'date-fns';
 import { User } from '../model/User';
 
 const api = axios.create({ baseURL: 'http://localhost:3000', withCredentials:true });
