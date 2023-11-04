@@ -1,6 +1,6 @@
 import * as yup from "yup"
 
-import { Cardapio } from "../../model/Cardapio";
+import { Cardapio } from "../../../model/Cardapio";
 
 export const CardapioSchema = yup
   .object<Cardapio>({

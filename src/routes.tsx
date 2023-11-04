@@ -1,13 +1,14 @@
 import { Route, Routes, useNavigate } from "react-router-dom";
-import List from "./pages/List";
-import Edit from "./pages/Edit";
+import List from "./pages/cardapio/List";
+import Edit from "./pages/cardapio/Edit";
 import { Box, Container } from "@mui/material";
-import Create from "./pages/Create";
+import Create from "./pages/cardapio/Create";
 import LoginPage from "./pages/Login";
 import { ReactElement, useContext } from "react";
 import AuthProvider, { AuthContext } from "./context/auth";
-import { useCookies } from "react-cookie";
 import ResponsiveAppBar from "./components/AppBar";
+import Home from "./pages/Home";
+import { useCookies } from "react-cookie";
 
 interface PrivateProps {
   children: ReactElement;
@@ -15,20 +16,19 @@ interface PrivateProps {
 
 export default function AppRoutes() {
   const navigate = useNavigate();
-  const [cookies, setCookie, removeCookie] = useCookies(["access_token"]);
+
   function Private({ children }: PrivateProps) {
     const authContext = useContext(AuthContext);
     if (!authContext) throw new Error("Problema");
-    const { loading } = authContext;
-    if (loading) return <>Carregando...</>;
-    if (!cookies["access_token"]) {
+    const { loading, token } = authContext;
+    if (!token) {
       navigate("/login");
     }
+    if (loading) return <>Carregando...</>;
     return <>{children}</>;
   }
   return (
     <AuthProvider>
-      {cookies.access_token ? <ResponsiveAppBar /> : <></>}
       <Container maxWidth="lg">
         <Box sx={{ my: 4 }}>
           <Routes>
@@ -37,12 +37,20 @@ export default function AppRoutes() {
               path="/"
               element={
                 <Private>
+                  <Home />
+                </Private>
+              }
+            />
+            <Route
+              path="/cardapio/"
+              element={
+                <Private>
                   <List />
                 </Private>
               }
             />
             <Route
-              path="/new"
+              path="/cardapio/new"
               element={
                 <Private>
                   <Create />
@@ -50,13 +58,14 @@ export default function AppRoutes() {
               }
             />
             <Route
-              path="/:id"
+              path="/cardapio/:id"
               element={
                 <Private>
                   <Edit />
                 </Private>
               }
             />
+            <Route />
           </Routes>
         </Box>
       </Container>

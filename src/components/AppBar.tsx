@@ -18,7 +18,7 @@ import { AuthContext } from "../context/auth";
 const pages = [
   {
     name: "Cardapio",
-    link: "/",
+    link: "/cardapio/",
   },
 ];
 
@@ -58,7 +58,7 @@ function ResponsiveAppBar() {
             variant="h6"
             noWrap
             component="a"
-            href="#app-bar-with-responsive-menu"
+            href="/"
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },

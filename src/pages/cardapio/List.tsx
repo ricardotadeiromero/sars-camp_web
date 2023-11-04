@@ -3,9 +3,9 @@ import Grid from "./components/Grid";
 import { Grid as MyGrid, Box, Button, Paper, Stack } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
-import PageTitle from "../components/PageTitle";
+import PageTitle from "../../components/PageTitle";
 import Breadcrumbs from "./components/Breadcrumbs";
-import { AuthContext } from "../context/auth";
+import { AuthContext } from "../../context/auth";
 
 export default function CardapioList() {
   const authContext = useContext(AuthContext);
@@ -27,7 +27,7 @@ export default function CardapioList() {
         <Box sx={{ alignSelf: "center" }}>
           <Button
             component={RouterLink}
-            to="/new"
+            to="/cardapio/new"
             variant="contained"
             startIcon={<AddIcon />}
           >

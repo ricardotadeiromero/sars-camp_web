@@ -20,8 +20,8 @@ import {
   createCardapio,
   getCardapioId,
   updateCardapio,
-} from "../../services/api";
-import { Cardapio } from "../../model/Cardapio";
+} from "../../../services/api";
+import { Cardapio } from "../../../model/Cardapio";
 import { CardapioSchema } from "../schemas/CardapioSchemas";
 import { DatePicker } from "@mui/x-date-pickers";
 import { format } from "date-fns";
@@ -205,7 +205,7 @@ export default function Form() {
         <Button type="submit" variant="contained" size="large">
           {id ? "Editar Cardápio" : "Criar Cardápio"}
         </Button>
-        <Button onClick={() => navigate("/")}>Cancelar</Button>
+        <Button onClick={() => navigate("/cardapio")}>Cancelar</Button>
       </Stack>
     </Box>
   );

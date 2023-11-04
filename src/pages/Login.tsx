@@ -8,13 +8,12 @@ import {
   Stack,
   TextField,
 } from "@mui/material";
-import React, { useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import loginImage from "../assets/login.png"; // Importe a imagem aqui
 import { useForm } from "react-hook-form";
 import { User } from "../model/User";
 import { AuthContext } from "../context/auth";
 import { useNavigate } from "react-router-dom";
-import { useCookies } from "react-cookie";
 
 export default function LoginPage() {
   const authContext = useContext(AuthContext);
@@ -23,8 +22,7 @@ export default function LoginPage() {
   if (!authContext) {
     throw new Error("AuthContext não está disponível.");
   }
-  const [cookies, setCookie, removeCookie] = useCookies(["access_token"]);
-  const { login, error, loading } = authContext;
+  const { login, error, loading, token } = authContext;
 
   const navigate = useNavigate();
 
@@ -38,7 +36,7 @@ export default function LoginPage() {
   } = useForm<User>();
 
   useEffect(() => {
-    if (cookies.access_token) navigate("/");
+    if (token) navigate("/");
   });
 
   function onSubmit(user: User) {
@@ -93,9 +91,7 @@ export default function LoginPage() {
                   variant="standard"
                   {...register("password")}
                 />
-                <Box sx={{width: "100%", textAlign:"center"}}>
-                  {error}
-                </Box>
+                <Box sx={{ width: "100%", textAlign: "center" }}>{error}</Box>
               </Stack>
               {loading ? (
                 <Button type="submit" fullWidth variant="contained">
