@@ -4,7 +4,7 @@ import Edit from "./pages/cardapio/Edit";
 import { Box, Container } from "@mui/material";
 import Create from "./pages/cardapio/Create";
 import LoginPage from "./pages/Login";
-import { ReactElement, useContext } from "react";
+import { ReactElement, useContext, useEffect, useState } from "react";
 import AuthProvider, { AuthContext } from "./context/auth";
 import ResponsiveAppBar from "./components/AppBar";
 import Home from "./pages/Home";
@@ -19,13 +19,30 @@ export default function AppRoutes() {
 
   function Private({ children }: PrivateProps) {
     const authContext = useContext(AuthContext);
-    if (!authContext) throw new Error("Problema");
-    const { loading, token } = authContext;
-    if (!token) {
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+      if (!authContext) throw new Error("Problema");
+      const { loading, token } = authContext;
+      if (!loading) {
+        setLoading(false);
+      }
+      if (token) {
+        setIsAuthenticated(true);
+      }
+    }, [authContext, navigate]);
+
+    if (loading) {
+      return <></>; // ou renderize um componente de carregamento
+    }
+    if (!isAuthenticated) {
       navigate("/login");
     }
-    if (loading) return <>Carregando...</>;
-    return <>{children}</>;
+    if (isAuthenticated) {
+      return <>{children}</>;
+    }
+    return <></>;
   }
   return (
     <AuthProvider>

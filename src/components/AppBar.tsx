@@ -10,7 +10,7 @@ import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { AuthContext } from "../context/auth";
@@ -23,6 +23,7 @@ const pages = [
 ];
 
 function ResponsiveAppBar() {
+  const navigate = useNavigate();
   const authContext = React.useContext(AuthContext);
   if (!authContext) throw new Error("Problema");
   const { logout, user } = authContext;
@@ -57,8 +58,8 @@ function ResponsiveAppBar() {
           <Typography
             variant="h6"
             noWrap
-            component="a"
-            href="/"
+            component={RouterLink}
+            to="/"
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },

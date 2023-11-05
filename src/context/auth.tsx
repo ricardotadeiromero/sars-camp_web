@@ -63,6 +63,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
   function logout() {
     localStorage.removeItem("user");
     setCookie("access_token", "", { path: "/" });
+    navigate("/");
     setToken(null);
     setUser(null);
   }

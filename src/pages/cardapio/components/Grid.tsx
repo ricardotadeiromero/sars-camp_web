@@ -89,7 +89,7 @@ export default function Grid() {
   ];
 
   if (loading) {
-    return <Skeleton variant="rectangular" />;
+    return <Skeleton height={600} variant="rectangular" />;
   }
 
   return <DataTable columns={columns} rows={cardapios} />;
