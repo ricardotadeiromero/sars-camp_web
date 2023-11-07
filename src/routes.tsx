@@ -9,6 +9,9 @@ import AuthProvider, { AuthContext } from "./context/auth";
 import ResponsiveAppBar from "./components/AppBar";
 import Home from "./pages/Home";
 import { useCookies } from "react-cookie";
+import AchadosEPerdidosList from "./pages/achados&perdidos/List";
+import ItemEdit from "./pages/achados&perdidos/Edit";
+import ItemCreate from "./pages/achados&perdidos/Create";
 
 interface PrivateProps {
   children: ReactElement;
@@ -75,13 +78,38 @@ export default function AppRoutes() {
               }
             />
             <Route
-              path="/cardapio/:id"
+              path="/item"
+              element={
+                <Private>
+                  <AchadosEPerdidosList />
+                </Private>
+              }
+            />
+            <Route
+              path="/item/:id"
               element={
                 <Private>
                   <Edit />
                 </Private>
               }
             />
+            <Route
+              path="/item/new"
+              element={
+                <Private>
+                  <ItemEdit />
+                </Private>
+              }
+            />
+            <Route
+              path="/cardapio/:id"
+              element={
+                <Private>
+                  <ItemCreate />
+                </Private>
+              }
+            />
+            
             <Route />
           </Routes>
         </Box>

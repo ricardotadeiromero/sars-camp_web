@@ -18,14 +18,19 @@ import { Controller, useForm } from "react-hook-form";
 import { useParams, useNavigate } from "react-router-dom";
 import {
   createCardapio,
+  createItem,
   getCardapioId,
+  getItemById,
   updateCardapio,
+  updateItem,
 } from "../../../services/api";
 import { Cardapio } from "../../../model/Cardapio";
 import { DatePicker } from "@mui/x-date-pickers";
 import { format } from "date-fns";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { CardapioSchema } from "../../cardapio/schemas/CardapioSchemas";
+
+import { a_p } from "../../../model/Achados&Perdidos";
+import { AchadosPerdidosSchema } from "../schemas/AchadosPerdidosSchema";
 
 export default function Form() {
   const { id } = useParams();
@@ -38,27 +43,23 @@ export default function Form() {
     formState: { errors },
     setFocus,
     setValue,
-  } = useForm<Cardapio>({ resolver: yupResolver(CardapioSchema) as any });
+  } = useForm<a_p>({ resolver: yupResolver(AchadosPerdidosSchema) as any });
 
-  const [cardapios, setCardapios] = useState<Cardapio>();
+  const [item, setItems] = useState<a_p>();
   const [loading, setLoading] = useState(true);
   const fetchCardapio = async () => {
     setLoading(false);
     if (id) {
       try {
-        const item = await getCardapioId(parseInt(id!));
-        setCardapios(item);
+        const item = await getItemById(parseInt(id!));
+        setItems(item);
 
         if (item) {
           console.log(item);
-          setValue("principal", item.principal);
-          setValue("guarnicao", item.guarnicao);
-          setValue("salada", item.salada);
-          setValue("sobremesa", item.sobremesa);
-          setValue("suco", item.suco);
-          setValue("periodo", item.periodo);
-          setValue("vegetariano", item.vegetariano);
-          setValue("data", new Date(item.data));
+          setValue("material", item.material);
+          setValue("local", item.local);
+          setValue("campus", item.campus);
+
         }
       } catch (error) {
         console.error("Erro ao buscar o cardápio:", error);
@@ -70,19 +71,19 @@ export default function Form() {
     fetchCardapio();
   }, []);
 
-  const onSubmit = async (data: Cardapio) => {
+  const onSubmit = async (data: a_p) => {
     try {
       if (id) {
         // Verifique se 'id' é válido antes de adicionar ao objeto 'data'
         const parsedId = parseInt(id);
         if (!isNaN(parsedId)) {
-          data.codigo = parsedId;
+          data.id = parsedId;
         }
         console.log(data);
-        updateCardapio(data);
+        updateItem(data);
       } else {
         console.log(data);
-        createCardapio(data);
+        createItem(data);
       }
       navigate("/");
     } catch (error) {
@@ -104,106 +105,31 @@ export default function Form() {
       sx={{ p: 2 }}
     >
       <TextField
-        label="Principal"
+        label="Material"
         fullWidth={true}
-        error={!!errors.principal}
+        error={!!errors.material}
         sx={{ marginBottom: 2 }}
-        helperText={errors.principal?.message}
-        {...register("principal")}
+        helperText={errors.material?.message}
+        {...register("material")}
       />
       <TextField
-        label="Guarnição"
+        label="Local"
         fullWidth={true}
-        error={!!errors.guarnicao}
+        error={!!errors.local}
         sx={{ marginBottom: 2 }}
-        helperText={errors.guarnicao?.message}
-        {...register("guarnicao")}
+        helperText={errors.local?.message}
+        {...register("local")}
       />
-      <Stack
-        direction={{ xs: "column", sm: "row" }}
-        sx={{ marginBottom: 2 }}
-        spacing={2}
-      >
         <TextField
-          label="Salada"
+          label="Campus"
           fullWidth={true}
-          error={!!errors.salada}
-          helperText={errors.salada?.message}
-          {...register("salada")}
+          error={!!errors.campus}
+          helperText={errors.campus?.message}
+          {...register("campus")}
         />
-        <TextField
-          label="Sobremesa"
-          fullWidth={true}
-          error={!!errors.sobremesa}
-          helperText={errors.sobremesa?.message}
-          {...register("sobremesa")}
-        />
-        <TextField
-          label="Suco"
-          fullWidth={true}
-          error={!!errors.suco}
-          helperText={errors.suco?.message}
-          {...register("suco")}
-        />
-      </Stack>
-      <Stack width={"100%"} direction={{ sm: "row" }} spacing={2}>
-        <Controller
-          control={control}
-          name="periodo"
-          defaultValue="0" // Define o valor padrão aqui
-          render={({ field: { ...field } }) => (
-            <FormControl sx={{ marginBottom: 2 }}>
-              <FormLabel>Período</FormLabel>
-              <RadioGroup
-                {...field}
-                aria-labelledby="demo-radio-buttons-group-label"
-              >
-                <FormControlLabel
-                  value="0"
-                  control={<Radio />}
-                  label="Almoço"
-                />
-                <FormControlLabel value="1" control={<Radio />} label="Janta" />
-              </RadioGroup>
-            </FormControl>
-          )}
-        />
-
-        <Controller
-          control={control}
-          name="vegetariano"
-          defaultValue="0" // Define o valor padrão aqui
-          render={({ field: { ...field } }) => (
-            <FormControl sx={{ marginBottom: 2 }}>
-              <FormLabel>Tipo</FormLabel>
-              <RadioGroup
-                {...field}
-                aria-labelledby="demo-radio-buttons-group-label"
-              >
-                <FormControlLabel value="0" control={<Radio />} label="Comum" />
-                <FormControlLabel
-                  value="1"
-                  control={<Radio />}
-                  label="Vegetariano"
-                />
-              </RadioGroup>
-            </FormControl>
-          )}
-        />
-        <Controller
-          control={control}
-          name="data"
-          render={({ field: { ...field } }) => (
-            <FormControl fullWidth={true}>
-              <DatePicker label="Data" {...field} />
-            </FormControl>
-          )}
-        />
-      </Stack>
-
-      <Stack direction="row" spacing={2}>
+      <Stack sx={{marginTop:2}} direction="row" spacing={2}>
         <Button type="submit" variant="contained" size="large">
-          {id ? "Editar Cardápio" : "Criar Cardápio"}
+          {id ? "Editar item" : "Criar item"}
         </Button>
         <Button onClick={() => navigate("/")}>Cancelar</Button>
       </Stack>

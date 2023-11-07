@@ -27,7 +27,7 @@ export default function AchadosEPerdidosList() {
         <Box sx={{ alignSelf: "center" }}>
           <Button
             component={RouterLink}
-            to="/new"
+            to="/item/new"
             variant="contained"
             startIcon={<AddIcon />}
           >

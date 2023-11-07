@@ -20,6 +20,11 @@ const pages = [
     name: "Cardapio",
     link: "/cardapio/",
   },
+  
+  {
+    name: "Itens",
+    link: "/item"
+  }
 ];
 
 function ResponsiveAppBar() {

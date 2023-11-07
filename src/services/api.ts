@@ -1,5 +1,7 @@
 import axios from "axios";
+import { a_p } from "../model/Achados&Perdidos";
 import { Cardapio } from "../model/Cardapio";
+import { CustomError } from "../model/CustomError";
 import { User } from "../model/User";
 
 const api = axios.create({
@@ -48,7 +50,14 @@ export async function createCardapio(cardapio: Cardapio) {
     console.log(cardapio);
     await api.post(`/cardapio/`, cardapio);
   } catch (error) {
-    console.error("Erro ao buscar o cardápio:", error);
+    throw error as CustomError;
+  }
+}
+
+export async function createItem(item: a_p){
+  try{
+    await api.post('/achados-perdidos',item);
+  } catch(error){
     throw error;
   }
 }
@@ -73,6 +82,23 @@ export async function getItems() {
   }
 }
 
+export async function getItemById(id:number){
+  try{
+    const response = await api.get("/achados-perdidos/"+id);
+    const data = response.data;
+    return data;
+  } catch(error) {
+    throw error;
+  }
+}
+
+export async function updateItem(item:a_p){
+  try{
+    await api.put("/achados-perdidos",item);
+  } catch(error){
+    throw error;
+  }
+}
 export async function deleteItems(id: number) {
   try {
     await api.delete("/achados-perdidos/" + id);
