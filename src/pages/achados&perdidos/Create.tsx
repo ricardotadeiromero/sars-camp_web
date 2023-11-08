@@ -1,5 +1,3 @@
-import React from "react";
-
 import Breadcrumbs from "./components/Breadcrumbs";
 import PageTitle from "../../components/PageTitle";
 import { Box, Paper } from "@mui/material";

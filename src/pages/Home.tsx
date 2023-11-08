@@ -1,7 +1,7 @@
-import { Box, Card, CardActionArea, CardContent, Container, Paper, Stack, Typography } from "@mui/material";
-import React, { useContext } from "react";
+import { Box, Card, CardActionArea, CardContent, Container, Stack, Typography } from "@mui/material";
+import { useContext } from "react";
 import { AuthContext } from "../context/auth";
-import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 
 export default function Home() {
   const authContext = useContext(AuthContext);

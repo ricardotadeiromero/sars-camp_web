@@ -3,16 +3,10 @@ import { createTheme } from "@mui/material/styles"
 import { ptBR as DataGridLocale } from "@mui/x-data-grid"
 
 // Defina suas cores personalizadas
-const myRed = "#A12E2F";
 const myWhite = "#FFFFFF";
-const myBlack = "#000000";
 const myGreen = "#0A6066";
 const myFormRed = "#A12E2F";
 const myLightGreen = "#007F82";
-const myInputGreen = "#0A6066";
-const myButtonGreen = "#007F82";
-const myAquaGreen = "rgba(15, 142, 147, 1.0)";
-const myLightGray = "rgba(210, 210, 210, 1.0)";
 const myShinyGray = "rgba(255, 255, 255, 0.62)";
 
 export const theme = createTheme(

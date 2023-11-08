@@ -1,19 +1,15 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import {
   Box,
   Button,
   FormControl,
   FormControlLabel,
   FormLabel,
-  InputLabel,
-  MenuItem,
   Modal,
   Radio,
   RadioGroup,
-  Select,
   Stack,
   TextField,
-  Tooltip,
   Typography,
 } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
@@ -30,7 +26,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { CustomError } from "../../../model/CustomError";
 
 const style = {
-  position: 'absolute' as 'absolute',
+  position: 'absolute' as const,
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
@@ -48,11 +44,9 @@ export default function Form() {
     register,
     handleSubmit,
     formState: { errors },
-    setFocus,
     setValue,
   } = useForm<Cardapio>({ resolver: yupResolver(CardapioSchema) as any });
 
-  const [cardapios, setCardapios] = useState<Cardapio>();
   const [loading, setLoading] = useState(true);
   const [error,setError] = useState('');
   const [open, setOpen] = useState(false);
@@ -62,7 +56,6 @@ export default function Form() {
     if (id) {
       try {
         const item = await getCardapioId(parseInt(id!));
-        setCardapios(item);
 
         if (item) {
           console.log(item);

@@ -1,10 +1,10 @@
-import { Box, Container } from "@mui/material";
+
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import ptBR from "date-fns/locale/pt-BR";
-import React, { useContext } from "react";
+import React from "react";
 import ReactDOM from "react-dom/client";
 
 import { theme } from "./theme";

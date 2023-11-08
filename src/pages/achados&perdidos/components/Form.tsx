@@ -1,32 +1,17 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Box,
   Button,
-  FormControl,
-  FormControlLabel,
-  FormLabel,
-  InputLabel,
-  MenuItem,
-  Radio,
-  RadioGroup,
-  Select,
   Stack,
   TextField,
-  Tooltip,
 } from "@mui/material";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useParams, useNavigate } from "react-router-dom";
 import {
-  createCardapio,
   createItem,
-  getCardapioId,
   getItemById,
-  updateCardapio,
   updateItem,
 } from "../../../services/api";
-import { Cardapio } from "../../../model/Cardapio";
-import { DatePicker } from "@mui/x-date-pickers";
-import { format } from "date-fns";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import { a_p } from "../../../model/Achados&Perdidos";
@@ -37,22 +22,18 @@ export default function Form() {
   const navigate = useNavigate();
 
   const {
-    control,
     register,
     handleSubmit,
     formState: { errors },
-    setFocus,
     setValue,
   } = useForm<a_p>({ resolver: yupResolver(AchadosPerdidosSchema) as any });
 
-  const [item, setItems] = useState<a_p>();
   const [loading, setLoading] = useState(true);
   const fetchCardapio = async () => {
     setLoading(false);
     if (id) {
       try {
         const item = await getItemById(parseInt(id!));
-        setItems(item);
 
         if (item) {
           console.log(item);

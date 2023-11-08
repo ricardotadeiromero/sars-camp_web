@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import { useContext } from "react";
 import Grid from "./components/Grid";
 import { Grid as MyGrid, Box, Button, Paper, Stack } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
@@ -10,8 +10,8 @@ import { AuthContext } from "../../context/auth";
 export default function CardapioList() {
   const authContext = useContext(AuthContext);
   if (!authContext) throw new Error("Contexto fudeu");
-  const { logout, user } = authContext;
-  const title: String = "Bem vindo " + user!;
+  const { user } = authContext;
+  const title: string = "Bem vindo " + user!;
   return (
     <>
       <MyGrid

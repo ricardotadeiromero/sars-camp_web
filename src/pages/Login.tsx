@@ -27,12 +27,8 @@ export default function LoginPage() {
   const navigate = useNavigate();
 
   const {
-    control,
     register,
     handleSubmit,
-    formState: { errors },
-    setFocus,
-    setValue,
   } = useForm<User>();
 
   useEffect(() => {

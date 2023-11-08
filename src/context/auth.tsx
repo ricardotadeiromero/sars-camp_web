@@ -3,7 +3,6 @@ import { User } from "../model/User";
 import { createSession } from "../services/api";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import { set } from "date-fns";
 import ResponsiveAppBar from "../components/AppBar";
 
 // Defina o tipo do valor padrão para o contexto (no seu caso, um objeto vazio)
@@ -58,7 +57,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
     setUser(userStorage);
     setToken(cookies.access_token);
     setLoading(false);
-  }, []);
+  }, [token]);
 
   function logout() {
     localStorage.removeItem("user");

@@ -1,4 +1,3 @@
-import React from "react";
 import Form from "./components/Form";
 import { Box, Paper } from "@mui/material";
 import PageTitle from "../../components/PageTitle";

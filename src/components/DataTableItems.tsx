@@ -1,5 +1,4 @@
 import { DataGrid, GridColDef, GridValidRowModel } from "@mui/x-data-grid";
-import { Cardapio } from "../model/Cardapio";
 
 interface DataTableProps {
   columns: GridColDef[];

@@ -11,7 +11,7 @@ export default function AchadosEPerdidosList() {
   const authContext = useContext(AuthContext);
   if (!authContext) throw new Error("Contexto fudeu");
   const { user } = authContext;
-  const title: String = "Bem vindo " + user!;
+  const title: string = "Bem vindo " + user!;
   return (
     <>
       <MyGrid

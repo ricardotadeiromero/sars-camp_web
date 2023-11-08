@@ -6,7 +6,7 @@ import {
 } from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import { deleteCardapio, deleteItems, getItems } from "../../../services/api";
+import {  deleteItems, getItems } from "../../../services/api";
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
 import { IconButton, Skeleton, Stack } from "@mui/material";

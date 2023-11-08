@@ -1,8 +1,8 @@
-import { Typography, TypographyPropsVariantOverrides } from "@mui/material";
+import { Typography } from "@mui/material";
 import { Variant } from "@mui/material/styles/createTypography";
 
 interface PageTitleProps {
-  title: String;
+  title: string;
   variant: Variant;
 }
 export default function PageTitle({ title,variant }: PageTitleProps) {
