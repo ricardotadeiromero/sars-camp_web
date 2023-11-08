@@ -1,16 +1,18 @@
-import { Children, ReactNode, createContext, useState, useEffect } from "react";
-import React from "react";
+import { ReactNode, createContext, useState, useEffect } from "react";
 import { User } from "../model/User";
-import { addToken, createSession } from "../services/api";
+import { createSession } from "../services/api";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
+import ResponsiveAppBar from "../components/AppBar";
 
 // Defina o tipo do valor padrão para o contexto (no seu caso, um objeto vazio)
 interface AuthContextType {
   user: string | null;
+  token: string | null;
   loading: boolean;
   login: (user: User) => void;
   logout: () => void;
+  error: string;
 }
 
 export const AuthContext = createContext<AuthContextType | undefined>(
@@ -22,8 +24,10 @@ interface AuthProviderProps {
 }
 export default function AuthProvider({ children }: AuthProviderProps) {
   const navigate = useNavigate();
-  const [cookies, setCookie, removeCookie] = useCookies(["access_token"]);
+  const [error, setError] = useState<string>("");
+  const [cookies, setCookie] = useCookies(["access_token"]);
   const [user, setUser] = useState<string | null>(null);
+  const [token, setToken] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
   async function login(user: User) {
@@ -34,11 +38,12 @@ export default function AuthProvider({ children }: AuthProviderProps) {
           const response = await createSession(user);
           setUser(user.username);
           localStorage.setItem("user", user.username);
+          setToken(response);
           if (response) {
             navigate("/");
           }
         } catch (error) {
-          // Trate erros de login, se necessário
+          setError("Usuário e/ou senha inválidos!");
         } finally {
           setLoading(false); // Defina loading como false após a conclusão
         }
@@ -47,20 +52,25 @@ export default function AuthProvider({ children }: AuthProviderProps) {
   }
 
   useEffect(() => {
-    setTimeout(() => {
-      const userStorage: string = localStorage.getItem("user")!;
-      setUser(userStorage);
-      setLoading(false);
-    }, 800);
-  }, []);
+    const userStorage: string = localStorage.getItem("user")!;
+    console.log("fon");
+    setUser(userStorage);
+    setToken(cookies.access_token);
+    setLoading(false);
+  }, [token]);
+
   function logout() {
     localStorage.removeItem("user");
     setCookie("access_token", "", { path: "/" });
+    navigate("/");
+    setToken(null);
     setUser(null);
   }
 
   const authContextValue: AuthContextType = {
+    error,
     user,
+    token,
     loading,
     login,
     logout,
@@ -68,7 +78,10 @@ export default function AuthProvider({ children }: AuthProviderProps) {
 
   return (
     <AuthContext.Provider value={authContextValue}>
-      {children}
+      <>
+        {token ? <ResponsiveAppBar /> : <></>}
+        {children}
+      </>
     </AuthContext.Provider>
   );
 }

@@ -1,11 +1,15 @@
 import { Route, Routes, useNavigate } from "react-router-dom";
-import List from "./pages/List";
-import Edit from "./pages/Edit";
-import Create from "./pages/Create";
+import List from "./pages/cardapio/List";
+import Edit from "./pages/cardapio/Edit";
+import { Box, Container } from "@mui/material";
+import Create from "./pages/cardapio/Create";
 import LoginPage from "./pages/Login";
-import { ReactElement, useContext } from "react";
+import { ReactElement, useContext, useEffect, useState } from "react";
 import AuthProvider, { AuthContext } from "./context/auth";
-import { useCookies } from "react-cookie";
+import Home from "./pages/Home";
+import AchadosEPerdidosList from "./pages/achados&perdidos/List";
+import ItemEdit from "./pages/achados&perdidos/Edit";
+import ItemCreate from "./pages/achados&perdidos/Create";
 
 interface PrivateProps {
   children: ReactElement;
@@ -13,46 +17,101 @@ interface PrivateProps {
 
 export default function AppRoutes() {
   const navigate = useNavigate();
-  const [cookies, setCookie, removeCookie] = useCookies(["access_token"]);
+
   function Private({ children }: PrivateProps) {
     const authContext = useContext(AuthContext);
-    if (!authContext) throw new Error("Problema");
-    const { loading } = authContext;
-    if (loading) return <>Carregando...</>;
-    if (!cookies["access_token"]) {
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+      if (!authContext) throw new Error("Problema");
+      const { loading, token } = authContext;
+      if (!loading) {
+        setLoading(false);
+      }
+      if (token) {
+        setIsAuthenticated(true);
+      }
+    }, [authContext, navigate]);
+
+    if (loading) {
+      return <></>; // ou renderize um componente de carregamento
+    }
+    if (!isAuthenticated) {
       navigate("/login");
     }
-    return <>{children}</>;
+    if (isAuthenticated) {
+      return <>{children}</>;
+    }
+    return <></>;
   }
   return (
     <AuthProvider>
-      <Routes>
-        <Route path="/login" element={<LoginPage />} />
-        <Route
-          path="/"
-          element={
-            <Private>
-              <List />
-            </Private>
-          }
-        />
-        <Route
-          path="/new"
-          element={
-            <Private>
-              <Create />
-            </Private>
-          }
-        />
-        <Route
-          path="/:id"
-          element={
-            <Private>
-              <Edit />
-            </Private>
-          }
-        />
-      </Routes>
+      <Container maxWidth="lg">
+        <Box sx={{ my: 4 }}>
+          <Routes>
+            <Route path="/login" element={<LoginPage />} />
+            <Route
+              path="/"
+              element={
+                <Private>
+                  <Home />
+                </Private>
+              }
+            />
+            <Route
+              path="/cardapio/"
+              element={
+                <Private>
+                  <List />
+                </Private>
+              }
+            />
+            <Route
+              path="/cardapio/new"
+              element={
+                <Private>
+                  <Create />
+                </Private>
+              }
+            />
+            <Route
+              path="/item"
+              element={
+                <Private>
+                  <AchadosEPerdidosList />
+                </Private>
+              }
+            />
+            <Route
+              path="/item/:id"
+              element={
+                <Private>
+                  <Edit />
+                </Private>
+              }
+            />
+            <Route
+              path="/item/new"
+              element={
+                <Private>
+                  <ItemEdit />
+                </Private>
+              }
+            />
+            <Route
+              path="/cardapio/:id"
+              element={
+                <Private>
+                  <ItemCreate />
+                </Private>
+              }
+            />
+            
+            <Route />
+          </Routes>
+        </Box>
+      </Container>
     </AuthProvider>
   );
 }

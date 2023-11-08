@@ -1,18 +1,16 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import {
   Box,
   Button,
   FormControl,
   FormControlLabel,
   FormLabel,
-  InputLabel,
-  MenuItem,
+  Modal,
   Radio,
   RadioGroup,
-  Select,
   Stack,
   TextField,
-  Tooltip,
+  Typography,
 } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
 import { useParams, useNavigate } from "react-router-dom";
@@ -20,13 +18,23 @@ import {
   createCardapio,
   getCardapioId,
   updateCardapio,
-} from "../../services/api";
-import { Cardapio } from "../../model/Cardapio";
+} from "../../../services/api";
+import { Cardapio } from "../../../model/Cardapio";
 import { CardapioSchema } from "../schemas/CardapioSchemas";
 import { DatePicker } from "@mui/x-date-pickers";
-import { format } from "date-fns";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { CustomError } from "../../../model/CustomError";
 
+const style = {
+  position: 'absolute' as const,
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  boxShadow: 24,
+  p: 4,
+};
 export default function Form() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -36,18 +44,18 @@ export default function Form() {
     register,
     handleSubmit,
     formState: { errors },
-    setFocus,
     setValue,
   } = useForm<Cardapio>({ resolver: yupResolver(CardapioSchema) as any });
 
-  const [cardapios, setCardapios] = useState<Cardapio>();
   const [loading, setLoading] = useState(true);
+  const [error,setError] = useState('');
+  const [open, setOpen] = useState(false);
+  const handleClose = () => setOpen(false);
   const fetchCardapio = async () => {
     setLoading(false);
     if (id) {
       try {
         const item = await getCardapioId(parseInt(id!));
-        setCardapios(item);
 
         if (item) {
           console.log(item);
@@ -71,24 +79,25 @@ export default function Form() {
   }, []);
 
   const onSubmit = async (data: Cardapio) => {
-    try {
+
       if (id) {
         // Verifique se 'id' é válido antes de adicionar ao objeto 'data'
         const parsedId = parseInt(id);
         if (!isNaN(parsedId)) {
           data.codigo = parsedId;
         }
-        console.log(data);
-        updateCardapio(data);
+        await updateCardapio(data);
+        navigate('/cardapio');
       } else {
-        console.log(data);
-        createCardapio(data);
+        try{
+          await createCardapio(data);
+          navigate('/cardapio');
+        } catch(error){
+          const errorText = error as CustomError
+          setError(errorText.response.data.message);
+          setOpen(true);
+        } 
       }
-      navigate("/");
-    } catch (error) {
-      console.error("Erro ao enviar os dados do cardápio:", error);
-      // Handle the error as needed
-    }
   };
 
   if (loading) {
@@ -96,6 +105,22 @@ export default function Form() {
   }
 
   return (
+    <>
+    <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Erro!
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            {error}
+          </Typography>
+        </Box>
+      </Modal>
     <Box
       component="form"
       autoComplete="off"
@@ -208,5 +233,6 @@ export default function Form() {
         <Button onClick={() => navigate("/cardapio")}>Cancelar</Button>
       </Stack>
     </Box>
+    </>
   );
 }

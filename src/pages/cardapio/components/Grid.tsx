@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   GridColDef,
   GridRenderCellParams,
@@ -6,12 +6,12 @@ import {
 } from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import { Cardapio } from "../../model/Cardapio";
-import { deleteCardapio, getCardapio } from "../../services/api";
-import DataTable from "../../components/DataTable";
+import { Cardapio } from "../../../model/Cardapio";
+import { deleteCardapio, getCardapio } from "../../../services/api";
+import DataTable from "../../../components/DataTableCardapio";
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
-import { IconButton, Stack } from "@mui/material";
+import { IconButton, Skeleton, Stack } from "@mui/material";
 
 export default function Grid() {
   const [cardapios, setCardapios] = useState<Cardapio[]>([]);
@@ -19,7 +19,6 @@ export default function Grid() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log("fon");
     async function fetchData() {
       try {
         const data = await getCardapio();
@@ -90,7 +89,7 @@ export default function Grid() {
   ];
 
   if (loading) {
-    return <p>Carregando...</p>;
+    return <Skeleton height={600} variant="rectangular" />;
   }
 
   return <DataTable columns={columns} rows={cardapios} />;
